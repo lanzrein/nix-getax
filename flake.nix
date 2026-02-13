@@ -27,8 +27,9 @@
           buildInputs = [
             pkgs.jdk17
             pkgs.webkitgtk_4_1
-            pkgs.gtk3
+            pkgs.gtk3 # display help
             pkgs.gobject-introspection
+            pkgs.gsettings-desktop-schemas  # saving files
           ];
           
           unpackPhase = ''
@@ -56,8 +57,14 @@
                 pkgs.gtk3 
                 pkgs.gobject-introspection
                 pkgs.glib
-              ]}
-          '';
+                pkgs.cairo
+                pkgs.pango
+                pkgs.gdk-pixbuf
+                pkgs.atk
+              ]} \
+              --prefix XDG_DATA_DIRS : ${pkgs.gsettings-desktop-schemas}/share/gsettings-schemas/${pkgs.gsettings-desktop-schemas.name} \
+              --prefix XDG_DATA_DIRS : ${pkgs.gtk3}/share/gsettings-schemas/${pkgs.gtk3.name}
+            '';
           
           meta = with pkgs.lib; {
             description = "Getax 2025 tax software";
